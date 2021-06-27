@@ -22,8 +22,11 @@
         android:name="com.example.fanfics.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="com.example.fanfics.ui.auth.LoginActivity"
-        android:label="LoginActivity" />
+
+    <fragment
+        android:id="@+id/userFanficsFragment"
+        android:name="com.example.fanfics.ui.user.fanfics.UserFanficsFragment"
+        android:label="User fanfics"
+        tools:layout="@layout/fragment_user_fanfics_list" />
+
 </navigation>

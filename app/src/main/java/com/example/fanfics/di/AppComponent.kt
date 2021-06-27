@@ -2,6 +2,7 @@ package com.example.fanfics.di
 
 import com.example.fanfics.ui.auth.LoginActivity
 import com.example.fanfics.ui.auth.RegistrationActivity
+import com.example.fanfics.ui.user.fanfics.UserFanficRepository
 import dagger.Component
 import javax.inject.Singleton
 
@@ -11,4 +12,6 @@ interface AppComponent {
 
     fun inject(activity: LoginActivity)
     fun inject(activity: RegistrationActivity)
+
+    fun getUserFanficRepository(): UserFanficRepository
 }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/fanfic_image"
+        android:layout_width="70dp"
+        android:layout_height="90dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fanfic_title"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="90dp" />
+
+    <TextView
+        android:id="@+id/fanfic_description"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fanfic_image"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/fanfic_publication_date"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/fanfic_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Placeholder"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toEndOf="@+id/fanfic_image"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="fanfic_title,fanfic_description"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <TextView
+        android:id="@+id/fanfic_fandom"
+        android:layout_width="98dp"
+        android:layout_height="19dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/fanfic_title" />
+
+    <TextView
+        android:id="@+id/fanfic_publication_date"
+        android:layout_width="92dp"
+        android:layout_height="19dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fanfic_title" />
+
+    <co.lujun.androidtagview.TagContainerLayout
+        android:id="@+id/fanfic_tags_layout"
+        android:layout_width="0dp"
+        android:layout_height="22dp"
+        android:layout_margin="0dp"
+
+        app:container_background_color="#00FFFFFF"
+        app:container_border_color="#00FFFFFF"
+        app:container_enable_drag="false"
+        app:horizontal_interval="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/fanfic_description"
+        app:layout_constraintVertical_bias="0.458"
+        app:tag_clickable="true"
+        app:tag_text_size="15dp"
+        app:tag_theme="pure_teal"
+        app:tag_vertical_padding="1dp"
+        app:vertical_interval="10dp" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
