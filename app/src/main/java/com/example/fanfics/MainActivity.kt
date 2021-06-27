@@ -15,6 +15,7 @@ import com.example.fanfics.utils.SessionManager
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        App.instance.clearAuthComponent()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

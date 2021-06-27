@@ -7,10 +7,10 @@ data class User(
     @SerializedName("id")
     var id: Long,
 
-    @SerializedName("first_name")
+    @SerializedName("firsName")
     var firsName: String,
 
-    @SerializedName("last_name")
+    @SerializedName("lastName")
     var lastName: String,
 
     @SerializedName("email")

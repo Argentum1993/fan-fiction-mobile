@@ -8,24 +8,22 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.fanfics.App
 import com.example.fanfics.MainActivity
 import com.example.fanfics.R
-import com.example.fanfics.data.ApiService
+import com.example.fanfics.data.AuthService
 import com.example.fanfics.data.requests.LoginRequest
-import com.example.fanfics.data.response.LoginResponse
 import com.example.fanfics.utils.SessionManager
-import com.google.gson.Gson
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private lateinit var loginProgressDialog: LoginProgressDialog
-    @Inject lateinit var apiService: ApiService
+    @Inject lateinit var authService: AuthService
 
     private lateinit var email: EditText
     private lateinit var password: EditText
@@ -34,20 +32,23 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(activity = this@LoginActivity)
 
+        App.instance.getAuthComponent().inject(activity = this@LoginActivity)
         super.onCreate(savedInstanceState)
         sessionManager = SessionManager(this)
-        if (sessionManager.authenticated()){
-            setContentView(R.layout.activity_login_placeholder)
-            redirectMain()
-        } else {
-            setContentView(R.layout.activity_login)
-            loginProgressDialog = LoginProgressDialog()
-            email = findViewById(R.id.loginEmail)
-            password = findViewById(R.id.loginPassword)
-            login = findViewById(R.id.buttonLogin)
-            registration = findViewById(R.id.buttonRedirectToRegistr)
+
+        setContentView(R.layout.activity_login_placeholder)
+        lifecycleScope.launch {
+            if (sessionManager.authenticate()) {
+                redirectMain()
+            } else {
+                setContentView(R.layout.activity_login)
+                loginProgressDialog = LoginProgressDialog()
+                email = findViewById(R.id.loginEmail)
+                password = findViewById(R.id.loginPassword)
+                login = findViewById(R.id.buttonLogin)
+                registration = findViewById(R.id.buttonRedirectToRegistr)
+            }
         }
     }
 
@@ -65,30 +66,22 @@ class LoginActivity : AppCompatActivity() {
         (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
             .hideSoftInputFromWindow(view.applicationWindowToken, 0)
         loginProgressDialog.show(supportFragmentManager, "Loading")
-        apiService.login(LoginRequest(email = email.text.toString(), password = password.text.toString()))
-            .enqueue(object : Callback<LoginResponse> {
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Log.i("TEST", "auth error can't connect to server")
-                    Log.i("throw", t.toString())
-                    loginProgressDialog.dismiss()
-                }
-
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    val loginResponse = response.body()
-                    var gson = Gson()
-                    if (response.code() == 200 && loginResponse != null) {
-                        sessionManager.saveAuthToken(loginResponse.accessToken)
-                        redirectMain()
-                    } else {
-                        Log.i("TEST", "auth error can't read response")
-                    }
-                    Thread.sleep(5000)
-                    loginProgressDialog.dismiss()
-                    Log.i("DEBUG", gson.toJson(loginResponse))
-                }
-            })
+        lifecycleScope.launch {
+            try {
+                val response = authService.login(
+                        LoginRequest(
+                                email = email.text.toString(),
+                                password = password.text.toString()
+                        )
+                )
+                sessionManager.login(response.accessToken, response.id)
+                redirectMain()
+            } catch (e: IOException){
+                e.message?.let { Log.i("login", it) }
+            } catch (e: HttpException){
+                Log.i("login", e.message())
+            }
+            loginProgressDialog.dismiss()
+        }
     }
 }

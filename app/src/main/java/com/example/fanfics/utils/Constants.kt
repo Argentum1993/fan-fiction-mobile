@@ -9,5 +9,7 @@ object Constants {
     const val TEST_URL = "api/v1/test"
 
     const val USERS_URL = "api/v1/users"
-    const val USER_FANFIC_URL = "$USERS_URL/{id}/fanfic"
+
+    // Header
+    const val AUTH_HEADER = "Authorization"
 }
