@@ -39,7 +39,9 @@ class SessionManager(context: Context) {
         if (token != null){
             setTokenToInterceptor(token)
             user = getUser(App.appComponent.getApiService())
-            App.instance.setUser(user)
+            if (user != null) {
+                logout()
+            }
         }
         return user != null
     }
@@ -49,6 +51,7 @@ class SessionManager(context: Context) {
         editor.remove(USER_TOKEN)
         editor.remove(USER_ID)
         editor.apply()
+        App.setUser(null)
         setTokenToInterceptor(null)
     }
 
@@ -61,7 +64,6 @@ class SessionManager(context: Context) {
            interceptor.setAccessToken("Bearer $token")
     }
 
-    // TODO Handling Error
     private suspend fun getUser(apiService: ApiService): User?{
         val userId: Long? = fetchUserId()
         var user: User? = null

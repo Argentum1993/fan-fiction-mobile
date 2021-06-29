@@ -11,11 +11,19 @@ class App: Application() {
     companion object {
         val appComponent: AppComponent = DaggerAppComponent.create()
         lateinit var instance: App
+
+        private var user: User? = null
+
+        fun setUser(user: User?){
+            this.user = user
+        }
+
+        fun getUser(): User?{
+            return user
+        }
     }
 
     private var authComponent: AuthComponent? = null
-
-    private var user: User? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -36,11 +44,5 @@ class App: Application() {
         authComponent = null
     }
 
-    fun setUser(user: User?){
-        this.user = user
-    }
 
-    fun getUser(): User?{
-        return user
-    }
 }

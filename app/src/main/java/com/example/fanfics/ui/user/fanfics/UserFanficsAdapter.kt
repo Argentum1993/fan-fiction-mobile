@@ -24,7 +24,6 @@ class UserFanficsAdapter(diffCallback: DiffUtil.ItemCallback<Fanfic>, var contex
 
         var gson = Gson()
 
-
         Log.d("onBindViewHolder", gson.toJson(userFanfic))
         if (userFanfic != null) {
             holder.bind(userFanfic, context)

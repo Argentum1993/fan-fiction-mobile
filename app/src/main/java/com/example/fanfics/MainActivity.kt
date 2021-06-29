@@ -1,6 +1,5 @@
 package com.example.fanfics
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -9,7 +8,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.fanfics.ui.auth.LoginActivity
 import com.example.fanfics.utils.SessionManager
 
 class MainActivity : AppCompatActivity() {
@@ -25,11 +23,11 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_home,
-            R.id.navigation_dashboard,
-            R.id.navigation_notifications,
             R.id.userFanficsFragment
         ))
+
         setupActionBarWithNavController(navController, appBarConfiguration)
+        supportActionBar?.hide();
         navView.setupWithNavController(navController)
     }
 

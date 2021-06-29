@@ -22,4 +22,12 @@ interface ApiService {
 
     @POST("${Constants.USERS_URL}/{id}")
     suspend fun getUser(@Path("id") id: Long): User
+
+    @POST("${Constants.USERS_URL}/{id}/fanfic/recommended")
+    suspend fun getRecommendedFanfics(
+        @Path("id") id: Long,
+        @Query("maxItem") maxItem: Int): List<Fanfic>
+
+    @POST("${Constants.FANFiC_URL}/random")
+    suspend fun getRandomFanfics(@Query("maxItem") maxItem: Int): List<Fanfic>
 }

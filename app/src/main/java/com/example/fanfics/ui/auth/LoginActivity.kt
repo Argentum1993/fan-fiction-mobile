@@ -8,6 +8,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.lifecycle.lifecycleScope
 import com.example.fanfics.App
 import com.example.fanfics.MainActivity
@@ -78,8 +80,17 @@ class LoginActivity : AppCompatActivity() {
                 redirectMain()
             } catch (e: IOException){
                 e.message?.let { Log.i("login", it) }
+                Toast.makeText(this@LoginActivity, "Can't connect.", LENGTH_SHORT)
+                        .show()
+                sessionManager.logout()
             } catch (e: HttpException){
+                var msg = ""
+                if (!e.response()?.errorBody()?.string().isNullOrEmpty())
+                    msg = "\n" + e.response()?.errorBody()?.string()
+                Toast.makeText(this@LoginActivity, "Can't connect.$msg", LENGTH_SHORT)
+                        .show()
                 Log.i("login", e.message())
+                sessionManager.logout()
             }
             loginProgressDialog.dismiss()
         }

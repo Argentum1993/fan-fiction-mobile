@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="recommended_title">Recommendations for you</string>
+    <string name="random_title">Random fanfics</string>
+    <string name="button_details">In details</string>
 </resources>
