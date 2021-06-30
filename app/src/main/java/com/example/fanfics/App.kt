@@ -11,7 +11,7 @@ class App: Application() {
     companion object {
         val appComponent: AppComponent = DaggerAppComponent.create()
         lateinit var instance: App
-
+        var token: String? = null
         private var user: User? = null
 
         fun setUser(user: User?){

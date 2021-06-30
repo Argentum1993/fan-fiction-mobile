@@ -10,8 +10,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fanfics.MainViewModel
 import com.example.fanfics.R
 import com.example.fanfics.ui.fanfic.FANFIC_OBJ
 import com.example.fanfics.ui.fanfic.FanficActivity
@@ -21,8 +24,11 @@ import com.google.gson.Gson
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var recommendedLayout: HorizontalListFanfics
     private lateinit var randomLayout: HorizontalListFanfics
+
+    private lateinit var profileButton: Button
 
     private var counter = 0
 
@@ -30,6 +36,12 @@ class HomeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         homeViewModel = defaultViewModelProviderFactory.create(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
+
+        profileButton = root.findViewById(R.id.button_profile)
+        profileButton.setOnClickListener {
+            mainViewModel.profile.postValue("Home")
+            Log.i("debug123", "  mainViewModel.profile.postValue")
+        }
 
         recommendedLayout = createHorizontalList(root, R.id.home_recommendation)
         randomLayout = createHorizontalList(root, R.id.home_random)
@@ -45,8 +57,6 @@ class HomeFragment : Fragment() {
                 .setOnClickListener {
                     homeViewModel.currentRandomFanfic.value?.let { it1 ->
                         onDetail(it1.id)
-                        Toast.makeText(this.context, "come id $counter", Toast.LENGTH_SHORT).show()
-                        counter += 1
                     }
                 }
 

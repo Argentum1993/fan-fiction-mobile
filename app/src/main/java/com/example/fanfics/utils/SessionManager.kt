@@ -38,6 +38,7 @@ class SessionManager(context: Context) {
 
         if (token != null){
             setTokenToInterceptor(token)
+            App.token = token
             user = getUser(App.appComponent.getApiService())
             if (user == null) {
                 logout()

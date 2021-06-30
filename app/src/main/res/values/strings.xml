@@ -7,6 +7,6 @@
     <string name="random_title">Random fanfics</string>
     <string name="button_details">In details</string>
     <string name="button_read">Read</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Logout</string>
+
 </resources>

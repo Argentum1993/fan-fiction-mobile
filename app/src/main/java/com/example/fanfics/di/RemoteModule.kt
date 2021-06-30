@@ -1,5 +1,6 @@
 package com.example.fanfics.di
 
+import com.example.fanfics.App
 import com.example.fanfics.data.ApiService
 import com.example.fanfics.data.AuthInterceptor
 import com.example.fanfics.data.AuthService
@@ -19,6 +20,7 @@ class RemoteModule {
     @Singleton
     fun createApiService(interceptor: AuthInterceptor): ApiService{
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        interceptor.setAccessToken(App.token)
         return Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .client(client)
