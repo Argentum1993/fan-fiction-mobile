@@ -1,14 +1,18 @@
 package com.example.fanfics.data.models
 
-import java.util.*
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Fanfic(
-    var id: Long,
-    var title : String,
-    var img : String,
-    var description : String,
-    var publicationDate: String,
-    var tags: Array<Tag>,
-    var fandom: Fandom,
-    var rating: Int
-)
+        val serialVersionUID: Long = 1L,
+        var id: Long,
+        var title: String?,
+        var author: String?,
+        var img: String?,
+        var description: String?,
+        var publicationDate: String?,
+        var tags: Array<Tag>,
+        var fandom: Fandom,
+        var rating: Int
+        ): Parcelable

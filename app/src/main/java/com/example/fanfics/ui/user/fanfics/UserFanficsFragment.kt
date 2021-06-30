@@ -1,5 +1,6 @@
 package com.example.fanfics.ui.user.fanfics
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.example.fanfics.R
+import com.example.fanfics.data.models.Fanfic
+import com.example.fanfics.ui.fanfic.FANFIC_OBJ
+import com.example.fanfics.ui.fanfic.FanficActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -17,7 +21,7 @@ import kotlinx.coroutines.launch
 /**
  * A fragment representing a list of Items.
  */
-class UserFanficsFragment : Fragment() {
+class UserFanficsFragment : Fragment(), FanficClickListener {
 
     private var columnCount = 1
 
@@ -36,43 +40,21 @@ class UserFanficsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_user_fanfics_list, container, false)
 
-        Log.d("F", "before init viewmodel")
         userFanficViewModel =  defaultViewModelProviderFactory.create(UserFanficViewModel::class.java)
-        Log.d("F", "after init viewmodel")
-
-        Log.d("F", "before init adapter")
-        adapter = UserFanficsAdapter(UserFanficsAdapter.diffCallback, this)
-        Log.d("F", "after init adapter")
-        Log.d("F", "before set adapter view")
+        adapter = UserFanficsAdapter(UserFanficsAdapter.diffCallback, this, this)
         (view as RecyclerView).adapter = adapter
-        Log.d("F", "after set adapter view")
-        Log.d("F", "before set layoutManager")
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
             }
         }
-        Log.d("F", "after set layoutManager")
 
-// Activities can use lifecycleScope directly, but Fragments should instead use
-// viewLifecycleOwner.lifecycleScope.
-        Log.d("F", "before corutine")
         viewLifecycleOwner.lifecycleScope.launch {
             userFanficViewModel.fetchUserFanfics().distinctUntilChanged().collectLatest {
                 adapter.submitData(it)
             }
         }
 
-//        // Set the adapter
-//        if (view is RecyclerView) {
-//            with(view) {
-//                layoutManager = when {
-//                    columnCount <= 1 -> LinearLayoutManager(context)
-//                    else -> GridLayoutManager(context, columnCount)
-//                }
-//                adapter = MyItemRecyclerViewAdapter(DummyContent.ITEMS)
-//            }
-//        }
         Log.d("F", "exit oncreate view")
         return view
     }
@@ -90,5 +72,12 @@ class UserFanficsFragment : Fragment() {
                         putInt(ARG_COLUMN_COUNT, columnCount)
                     }
                 }
+    }
+
+    override fun onCellClickListener(fanfic: Fanfic) {
+        val intent = Intent(activity,  FanficActivity::class.java).apply {
+            putExtra(FANFIC_OBJ, fanfic)
+        }
+        startActivity(intent)
     }
 }

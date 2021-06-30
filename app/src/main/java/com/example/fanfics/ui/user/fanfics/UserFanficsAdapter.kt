@@ -17,7 +17,11 @@ import com.example.fanfics.data.models.Fanfic
 import com.google.gson.Gson
 import kotlin.math.roundToInt
 
-class UserFanficsAdapter(diffCallback: DiffUtil.ItemCallback<Fanfic>, var context: UserFanficsFragment):
+class UserFanficsAdapter(
+    diffCallback: DiffUtil.ItemCallback<Fanfic>,
+    var context: UserFanficsFragment,
+    val fanficClickListener: FanficClickListener
+):
     PagingDataAdapter<Fanfic, UserFanficsAdapter.FanficViewHolder>(diffCallback){
     override fun onBindViewHolder(holder: FanficViewHolder, position: Int) {
         var userFanfic = getItem(position)
@@ -27,6 +31,9 @@ class UserFanficsAdapter(diffCallback: DiffUtil.ItemCallback<Fanfic>, var contex
         Log.d("onBindViewHolder", gson.toJson(userFanfic))
         if (userFanfic != null) {
             holder.bind(userFanfic, context)
+            holder.itemView.setOnClickListener {
+                fanficClickListener.onCellClickListener(userFanfic)
+            }
         }
     }
 

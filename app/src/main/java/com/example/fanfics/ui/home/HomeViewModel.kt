@@ -25,8 +25,10 @@ class HomeViewModel constructor(val apiService: ApiService = App.appComponent.ge
     val recommendedFanfics: LiveData<List<Fanfic>> = _recommendedFanfics
 
     init {
-        viewModelScope.launch {
-            _recommendedFanfics.postValue(apiService.getRecommendedFanfics(App.user.id, MAX_ITEMS))
+        App.getUser()?.let {
+            viewModelScope.launch {
+                _recommendedFanfics.postValue(apiService.getRecommendedFanfics(it.id, MAX_ITEMS))
+            }
         }
     }
 
@@ -51,5 +53,15 @@ class HomeViewModel constructor(val apiService: ApiService = App.appComponent.ge
 
     fun setCurrentRandomFanfic(fanfic: Fanfic){
         _currentRandomFanfic.postValue(fanfic)
+    }
+
+
+    private val _loadFanfic = MutableLiveData<Fanfic>()
+    val loadFanfic: LiveData<Fanfic> = _loadFanfic
+
+    fun loadFanfic(id: Long){
+        viewModelScope.launch {
+            _loadFanfic.postValue(apiService.getFanfic(id))
+        }
     }
 }

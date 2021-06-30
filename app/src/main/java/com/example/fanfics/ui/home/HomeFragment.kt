@@ -1,5 +1,6 @@
 package com.example.fanfics.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,13 +13,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fanfics.R
+import com.example.fanfics.ui.fanfic.FANFIC_OBJ
+import com.example.fanfics.ui.fanfic.FanficActivity
 import com.example.fanfics.ui.home.layout.HorizontalListFanfics
+import com.google.gson.Gson
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var recommendedLayout: HorizontalListFanfics
     private lateinit var randomLayout: HorizontalListFanfics
+
+    private var counter = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,7 +43,11 @@ class HomeFragment : Fragment() {
         randomLayout.layout
                 .findViewById<Button>(R.id.horizontal_list_detail)
                 .setOnClickListener {
-                    homeViewModel.currentRandomFanfic.value?.let { it1 -> onDetail(it1.id) }
+                    homeViewModel.currentRandomFanfic.value?.let { it1 ->
+                        onDetail(it1.id)
+                        Toast.makeText(this.context, "come id $counter", Toast.LENGTH_SHORT).show()
+                        counter += 1
+                    }
                 }
 
         homeViewModel.recommendedFanfics.observe(viewLifecycleOwner,  {
@@ -94,11 +104,18 @@ class HomeFragment : Fragment() {
             randomLayout.descriptionTextView.text = it.description
         })
 
+            homeViewModel.loadFanfic.observe(viewLifecycleOwner, {
+                var intent = Intent(activity, FanficActivity::class.java)
+                intent.putExtra(FANFIC_OBJ, it)
+                Log.i("loadFanfic", Gson().toJson(it))
+                Toast.makeText(this.context, Gson().toJson(it), Toast.LENGTH_SHORT).show()
+                startActivity(intent)
+            })
         return root
     }
 
     private fun onDetail(id: Long){
-        Toast.makeText(this.context, "come id $id", Toast.LENGTH_SHORT).show()
+        homeViewModel.loadFanfic(id)
     }
 
     private inline fun createHorizontalList(view: View, idIncludeView: Int): HorizontalListFanfics{

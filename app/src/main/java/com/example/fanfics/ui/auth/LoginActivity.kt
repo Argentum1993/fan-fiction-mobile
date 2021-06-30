@@ -77,7 +77,10 @@ class LoginActivity : AppCompatActivity() {
                         )
                 )
                 sessionManager.login(response.accessToken, response.id)
-                redirectMain()
+                if (sessionManager.authenticate())
+                    redirectMain()
+                else
+                    sessionManager.logout()
             } catch (e: IOException){
                 e.message?.let { Log.i("login", it) }
                 Toast.makeText(this@LoginActivity, "Can't connect.", LENGTH_SHORT)
