@@ -1,5 +1,6 @@
 package com.example.fanfics.data
 
+import com.example.fanfics.data.models.Chapter
 import com.example.fanfics.data.models.Fanfic
 import com.example.fanfics.data.models.User
 import com.example.fanfics.utils.Constants
@@ -28,4 +29,7 @@ interface ApiService {
 
     @GET("${Constants.FANFiC_URL}/{id}")
     suspend fun getFanfic(@Path("id") id: Long): Fanfic
+
+    @GET("${Constants.FANFiC_URL}/{id}/chapters")
+    suspend fun getChapters(@Path("id") fanficId: Long): List<Chapter>
 }

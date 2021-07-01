@@ -2,71 +2,61 @@ package com.example.fanfics.ui.fanfic
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import co.lujun.androidtagview.TagContainerLayout
 import com.bumptech.glide.Glide
 import com.example.fanfics.R
 import com.example.fanfics.data.models.Fanfic
+import com.example.fanfics.ui.fanfic.chapter.ChaptersFragment
+import kotlinx.coroutines.launch
 
 const val FANFIC_OBJ = "com.example.fanfics.data.models.Fanfic"
 
 class FanficActivity : AppCompatActivity() {
+    private val fanficViewModel: FanficViewModel by viewModels()
     private var fanfic: Fanfic? = null
-
-    private lateinit var backgroundImageView: ImageView
-    private lateinit var titleImageView: ImageView
-    private lateinit var titleTextView: TextView
-    private lateinit var authorTextView: TextView
-    private lateinit var readButton: Button
-    private lateinit var descriptionTextView: TextView
-    private lateinit var tagsTagsLayout: TagContainerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fanfic)
-        init()
-        putData()
+        supportActionBar?.hide()
+        fanfic =  intent?.getParcelableExtra(FANFIC_OBJ) as Fanfic?
+        supportFragmentManager.commit {
+            val bundle = bundleOf(FANFIC_OBJ to fanfic)
+            add<FanficMainFragment>(R.id.fanfic_container, args = bundle)
+            setReorderingAllowed(true)
+        }
+
+        fanficViewModel.readEvent.observe(this, {
+            fanfic?.id?.let { it1 -> onRead(it1) }
+        })
     }
 
 
     private fun onRead(id: Long){
-        Toast.makeText(this, "Clicked id $id", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun putData(){
-        fanfic?.let { fanfic ->
-            Glide
-                    .with(this)
-                    .load(fanfic.img)
-                    .centerCrop()
-                    .into(backgroundImageView)
-            Glide
-                    .with(this)
-                    .load(fanfic.img)
-                    .centerCrop()
-                    .into(titleImageView)
-            titleTextView.text = fanfic.title
-            authorTextView.text = HtmlCompat.fromHtml(
-                "<b>Author:</b> ${fanfic.author}",
-                HtmlCompat.FROM_HTML_MODE_LEGACY)
-            readButton.setOnClickListener { onRead(fanfic.id) }
-            descriptionTextView.text = fanfic.description
-            tagsTagsLayout.setTags(fanfic.tags.map { it.name })
+        lifecycleScope.launch {
+            if (fanficViewModel.loadChapters(id)) {
+                supportFragmentManager.commit {
+                    replace<ChaptersFragment>(R.id.fanfic_container)
+                    setReorderingAllowed(true)
+                    addToBackStack(null)
+                }
+            } else {
+                Toast.makeText(
+                    this@FanficActivity,
+                    "Can't load chapters",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
-    }
-
-    private fun init(){
-        fanfic = intent?.getParcelableExtra(FANFIC_OBJ) as Fanfic?
-        backgroundImageView = findViewById(R.id.blur_background)
-        titleImageView = findViewById(R.id.fanfic_activity_image)
-        titleTextView = findViewById(R.id.fanfic_activity_title)
-        authorTextView = findViewById(R.id.fanfic_activity_author)
-        readButton = findViewById(R.id.fanfic_activity_read_button)
-        descriptionTextView = findViewById(R.id.fanfic_activity_description)
-        tagsTagsLayout = findViewById(R.id.fanfic_activity_tags)
     }
 }

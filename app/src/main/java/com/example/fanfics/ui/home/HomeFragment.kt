@@ -30,8 +30,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var profileButton: Button
 
-    private var counter = 0
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         homeViewModel = defaultViewModelProviderFactory.create(HomeViewModel::class.java)
@@ -117,8 +115,6 @@ class HomeFragment : Fragment() {
             homeViewModel.loadFanfic.observe(viewLifecycleOwner, {
                 var intent = Intent(activity, FanficActivity::class.java)
                 intent.putExtra(FANFIC_OBJ, it)
-                Log.i("loadFanfic", Gson().toJson(it))
-                Toast.makeText(this.context, Gson().toJson(it), Toast.LENGTH_SHORT).show()
                 startActivity(intent)
             })
         return root

@@ -8,5 +8,7 @@
     <string name="button_details">In details</string>
     <string name="button_read">Read</string>
     <string name="logout">Logout</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

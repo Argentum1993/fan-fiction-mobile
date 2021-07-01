@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         ))
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        supportActionBar?.hide();
+        supportActionBar?.hide()
         navView.setupWithNavController(navController)
 
         mainViewModel.logout.observe(this, {

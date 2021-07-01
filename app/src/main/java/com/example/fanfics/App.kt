@@ -1,13 +1,14 @@
 package com.example.fanfics;
 
 import android.app.Application;
+import androidx.multidex.MultiDexApplication
 import com.example.fanfics.data.models.User
 import com.example.fanfics.di.AppComponent
 import com.example.fanfics.di.AuthComponent
 import com.example.fanfics.di.DaggerAppComponent
 import com.example.fanfics.di.DaggerAuthComponent
 
-class App: Application() {
+class App: MultiDexApplication() {
     companion object {
         val appComponent: AppComponent = DaggerAppComponent.create()
         lateinit var instance: App
