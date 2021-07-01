@@ -13,24 +13,23 @@
         android:layout_margin="10dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fanfic_title"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="90dp" />
+        app:layout_constraintGuide_begin="102dp" />
 
     <TextView
         android:id="@+id/fanfic_description"
         android:layout_width="0dp"
         android:layout_height="43dp"
         android:layout_weight="1"
+        android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="TextView"
@@ -66,15 +65,17 @@
     <TextView
         android:id="@+id/fanfic_fandom"
         android:layout_width="98dp"
-        android:layout_height="19dp"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/fanfic_title" />
 
     <TextView
         android:id="@+id/fanfic_publication_date"
-        android:layout_width="92dp"
-        android:layout_height="19dp"
+        android:layout_width="113dp"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fanfic_title" />

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Fanfics</string>
     <string name="title_home">Home</string>
+    <string name="title_my_fanfics">My</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="recommended_title">Recommendations for you</string>

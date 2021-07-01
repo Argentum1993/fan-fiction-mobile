@@ -9,7 +9,7 @@ object Constants {
     // Endpoints
     const val           LOGIN_URL = "${API_PREFIX}/auth/login"
     const val           REGISTR_URL = "${API_PREFIX}/auth/sign_up"
-    const val           FANFiC_URL = "${API_PREFIX}/fanfic"
+    const val           FANFIC_URL = "${API_PREFIX}/fanfic"
 
     const val           TEST_URL = "${API_PREFIX}/test"
 

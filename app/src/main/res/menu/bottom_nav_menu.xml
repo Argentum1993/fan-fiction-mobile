@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/userFanficsFragment"
-        android:icon="@android:drawable/ic_dialog_alert"
-        android:title="Item" />
+        android:icon="@drawable/my_fanfics"
+        android:title="@string/title_my_fanfics" />
 
 </menu>

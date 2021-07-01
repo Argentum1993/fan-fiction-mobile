@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fanfics.App
 import com.example.fanfics.MainViewModel
 import com.example.fanfics.R
 import com.example.fanfics.ui.fanfic.FANFIC_OBJ
@@ -36,6 +37,7 @@ class HomeFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
         profileButton = root.findViewById(R.id.button_profile)
+        profileButton.text = App.getUser()?.firsName?.toUpperCase()?.substring(0, 1)
         profileButton.setOnClickListener {
             mainViewModel.profile.postValue("Home")
             Log.i("debug123", "  mainViewModel.profile.postValue")

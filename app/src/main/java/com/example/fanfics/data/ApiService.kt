@@ -24,12 +24,12 @@ interface ApiService {
         @Path("id") id: Long,
         @Query("maxItem") maxItem: Int): List<Fanfic>
 
-    @POST("${Constants.FANFiC_URL}/random")
+    @POST("${Constants.FANFIC_URL}/random")
     suspend fun getRandomFanfics(@Query("maxItem") maxItem: Int): List<Fanfic>
 
-    @GET("${Constants.FANFiC_URL}/{id}")
+    @GET("${Constants.FANFIC_URL}/{id}")
     suspend fun getFanfic(@Path("id") id: Long): Fanfic
 
-    @GET("${Constants.FANFiC_URL}/{id}/chapters")
+    @GET("${Constants.FANFIC_URL}/{id}/chapters")
     suspend fun getChapters(@Path("id") fanficId: Long): List<Chapter>
 }
